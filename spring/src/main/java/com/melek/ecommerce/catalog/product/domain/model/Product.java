@@ -1,6 +1,7 @@
 package com.melek.ecommerce.catalog.product.domain.model;
 
 import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
+import com.melek.ecommerce.shared.domain.model.Money;
 
 public class Product {
 

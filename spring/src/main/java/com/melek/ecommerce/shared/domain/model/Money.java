@@ -1,4 +1,4 @@
-package com.melek.ecommerce.catalog.product.domain.model;
+package com.melek.ecommerce.shared.domain.model;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -23,5 +23,25 @@ public record Money(
 
     public static Money of(BigDecimal amount, Currency currency) {
         return new Money(amount, currency);
+    }
+
+    public Money multiply(int multiplier) {
+        return new Money(
+            amount.multiply(
+                BigDecimal.valueOf(multiplier)
+            ),
+            currency
+        );
+    }
+
+    public Money add(Money other) {
+        if (!currency.equals(other.currency)) {
+            throw new IllegalArgumentException("Currencies must match");
+        }
+
+        return new Money(
+            amount.add(other.amount),
+            currency
+        );
     }
 }

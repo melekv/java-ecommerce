@@ -4,7 +4,7 @@ import com.melek.ecommerce.catalog.category.application.exception.CategoryNotFou
 import com.melek.ecommerce.catalog.category.domain.model.Category;
 import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
 import com.melek.ecommerce.catalog.category.domain.repository.CategoryRepository;
-import com.melek.ecommerce.catalog.product.domain.model.Money;
+import com.melek.ecommerce.shared.domain.model.Money;
 import com.melek.ecommerce.catalog.product.domain.model.Product;
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
 import com.melek.ecommerce.catalog.product.domain.repository.ProductRepository;

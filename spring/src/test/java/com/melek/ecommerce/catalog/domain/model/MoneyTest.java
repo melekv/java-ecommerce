@@ -1,6 +1,6 @@
 package com.melek.ecommerce.catalog.domain.model;
 
-import com.melek.ecommerce.catalog.product.domain.model.Money;
+import com.melek.ecommerce.shared.domain.model.Money;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
