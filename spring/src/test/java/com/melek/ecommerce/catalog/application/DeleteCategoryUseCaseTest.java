@@ -35,7 +35,7 @@ public class DeleteCategoryUseCaseTest {
         useCase.execute(id);
 
         verify(repository).findById(id);
-        verify(repository).delete(category);
+        verify(repository).delete(id);
     }
 
     @Test

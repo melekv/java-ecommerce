@@ -17,11 +17,11 @@ public class DeleteProductUseCase {
     }
 
     public void execute(ProductId id) {
-        Product product = productRepository.findById(id)
+        productRepository.findById(id)
             .orElseThrow(
                 () -> new ProductNotFoundException(id)
             );
 
-        productRepository.delete(product);
+        productRepository.delete(id);
     }
 }

@@ -55,7 +55,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public void delete(Category category) {
-        repository.deleteById(category.getId().value());
+    public void delete(CategoryId id) {
+        repository.deleteById(id.value());
     }
 }

@@ -46,7 +46,16 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void delete(Product product) {
-        repository.deleteById(product.getId().value());
+    public Product update(Product product) {
+        ProductEntity entity = mapper.toEntity(product);
+
+        ProductEntity savedEntity = repository.save(entity);
+
+        return mapper.toDomain(savedEntity);
+    }
+
+    @Override
+    public void delete(ProductId id) {
+        repository.deleteById(id.value());
     }
 }

@@ -14,9 +14,9 @@ public class DeleteCategoryUseCase {
     }
 
     public void execute(CategoryId id) {
-        Category category = categoryRepository.findById(id)
+        categoryRepository.findById(id)
             .orElseThrow(() -> new CategoryNotFoundException(id));
 
-        categoryRepository.delete(category);
+        categoryRepository.delete(id);
     }
 }

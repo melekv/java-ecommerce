@@ -50,6 +50,6 @@ public class UpdateProductUseCase {
         product.changePrice(money);
         product.changeCategory(categoryId);
 
-        return productRepository.save(product);
+        return productRepository.update(product);
     }
 }
