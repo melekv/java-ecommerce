@@ -1,9 +1,10 @@
 package com.melek.ecommerce.catalog.infrastructure;
 
-import com.melek.ecommerce.catalog.application.*;
-import com.melek.ecommerce.catalog.domain.model.*;
-import com.melek.ecommerce.catalog.infrastructure.web.CategoryController;
-import com.melek.ecommerce.catalog.infrastructure.web.CategoryResponseMapper;
+import com.melek.ecommerce.catalog.category.application.*;
+import com.melek.ecommerce.catalog.category.domain.model.Category;
+import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
+import com.melek.ecommerce.catalog.category.infrastructure.web.CategoryController;
+import com.melek.ecommerce.catalog.category.infrastructure.web.CategoryResponseMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;

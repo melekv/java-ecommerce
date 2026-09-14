@@ -1,9 +1,10 @@
 package com.melek.ecommerce.catalog.application;
 
-import com.melek.ecommerce.catalog.application.exception.CategoryNotFoundException;
-import com.melek.ecommerce.catalog.domain.model.Category;
-import com.melek.ecommerce.catalog.domain.model.CategoryId;
-import com.melek.ecommerce.catalog.domain.repository.CategoryRepository;
+import com.melek.ecommerce.catalog.category.application.exception.CategoryNotFoundException;
+import com.melek.ecommerce.catalog.category.application.UpdateCategoryUseCase;
+import com.melek.ecommerce.catalog.category.domain.model.Category;
+import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
+import com.melek.ecommerce.catalog.category.domain.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

@@ -1,13 +1,13 @@
 package com.melek.ecommerce.catalog.infrastructure;
 
-import com.melek.ecommerce.catalog.application.*;
-import com.melek.ecommerce.catalog.application.exception.CategoryNotFoundException;
-import com.melek.ecommerce.catalog.domain.model.CategoryId;
-import com.melek.ecommerce.catalog.domain.model.Money;
-import com.melek.ecommerce.catalog.domain.model.Product;
-import com.melek.ecommerce.catalog.domain.model.ProductId;
-import com.melek.ecommerce.catalog.infrastructure.web.ProductController;
-import com.melek.ecommerce.catalog.infrastructure.web.ProductResponseMapper;
+import com.melek.ecommerce.catalog.category.application.exception.CategoryNotFoundException;
+import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
+import com.melek.ecommerce.catalog.product.domain.model.Money;
+import com.melek.ecommerce.catalog.product.domain.model.Product;
+import com.melek.ecommerce.catalog.product.domain.model.ProductId;
+import com.melek.ecommerce.catalog.product.infrastructure.web.ProductController;
+import com.melek.ecommerce.catalog.product.infrastructure.web.ProductResponseMapper;
+import com.melek.ecommerce.catalog.product.application.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
