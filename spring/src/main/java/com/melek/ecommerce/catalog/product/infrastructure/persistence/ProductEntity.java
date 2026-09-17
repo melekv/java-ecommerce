@@ -29,7 +29,7 @@ public class ProductEntity {
     @Column(name = "category_id", nullable = false)
     private UUID categoryId;
 
-    public ProductEntity() {
+    protected ProductEntity() {
     }
 
     public ProductEntity(

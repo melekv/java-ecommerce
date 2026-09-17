@@ -17,6 +17,7 @@ public class OrderItemTest {
         assertThrows(
             IllegalArgumentException.class,
             () -> new OrderItem(
+                OrderItemId.generate(),
                 ProductId.generate(),
                 "Yamaha motocycle",
                 Money.of(
@@ -33,6 +34,7 @@ public class OrderItemTest {
         assertThrows(
             IllegalArgumentException.class,
             () -> new OrderItem(
+                OrderItemId.generate(),
                 ProductId.generate(),
                 "Yamaha motocycle",
                 Money.of(
@@ -47,6 +49,7 @@ public class OrderItemTest {
     @Test
     public void Should_Count_Total() {
         OrderItem orderItem = new OrderItem(
+            OrderItemId.generate(),
             ProductId.generate(),
             "Keyboard",
             Money.of(

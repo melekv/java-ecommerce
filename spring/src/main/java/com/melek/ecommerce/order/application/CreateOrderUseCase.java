@@ -6,6 +6,7 @@ import com.melek.ecommerce.order.application.port.ProductData;
 import com.melek.ecommerce.order.domain.model.Order;
 import com.melek.ecommerce.order.domain.model.OrderId;
 import com.melek.ecommerce.order.domain.model.OrderItem;
+import com.melek.ecommerce.order.domain.model.OrderItemId;
 import com.melek.ecommerce.order.domain.repository.OrderRepository;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class CreateOrderUseCase {
                     .orElseThrow();
 
             orderItems.add(new OrderItem(
+                OrderItemId.generate(),
                 product.id(),
                 product.name(),
                 product.price(),

@@ -35,6 +35,38 @@ public class Order {
         this.status = OrderStatus.NEW;
     }
 
+    public Order(
+        OrderId id,
+        UUID customerId,
+        List<OrderItem> items,
+        OrderStatus status
+    ) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+
+        if (customerId == null) {
+            throw new IllegalArgumentException("Customer id cannot be null");
+        }
+
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("Order must contain at least one item");
+        }
+
+        this.id = id;
+        this.customerId = customerId;
+        this.items = List.copyOf(items);
+        this.status = status;
+    }
+
+    public OrderId getId() {
+        return id;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
     public OrderStatus getStatus() {
         return status;
     }

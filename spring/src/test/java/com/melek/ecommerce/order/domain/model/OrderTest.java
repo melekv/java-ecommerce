@@ -19,6 +19,7 @@ public class OrderTest {
         List<OrderItem> items = new ArrayList<>();
 
         OrderItem orderItem1 = new OrderItem(
+            OrderItemId.generate(),
             ProductId.generate(),
             "Keyboard",
             Money.of(
@@ -31,6 +32,7 @@ public class OrderTest {
         items.add(orderItem1);
 
         OrderItem orderItem2 = new OrderItem(
+            OrderItemId.generate(),
             ProductId.generate(),
             "Keyboard",
             Money.of(
@@ -98,6 +100,7 @@ public class OrderTest {
 
     private Order createOrder() {
         OrderItem orderItem = new OrderItem(
+            OrderItemId.generate(),
             ProductId.generate(),
             "Keyboard",
             Money.of(

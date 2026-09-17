@@ -5,12 +5,14 @@ import com.melek.ecommerce.shared.domain.model.Money;
 
 public class OrderItem {
 
+    private final OrderItemId id;
     private final ProductId productId;
     private final String productName;
     private final Money unitPrice;
     private final int quantity;
 
     public OrderItem(
+        OrderItemId id,
         ProductId productId,
         String productName,
         Money unitPrice,
@@ -20,10 +22,15 @@ public class OrderItem {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
 
+        this.id = id;
         this.productId = productId;
         this.productName = productName;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
+    }
+
+    public OrderItemId getId() {
+        return id;
     }
 
     public ProductId getProductId() {
