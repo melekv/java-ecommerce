@@ -1,4 +1,4 @@
-package com.melek.ecommerce.catalog.shared.infrastructure.web;
+package com.melek.ecommerce.shared.infrastructure.web;
 
 public record ErrorResponse(
     String code,

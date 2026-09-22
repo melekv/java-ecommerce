@@ -1,9 +1,16 @@
 package com.melek.ecommerce.order.application.dto;
 
-import com.melek.ecommerce.catalog.product.domain.model.ProductId;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+import java.util.UUID;
 
 public record OrderItemRequest(
-    ProductId id,
+
+    @NotNull
+    UUID id,
+
+    @Positive
     int quantity
 ) {
 }

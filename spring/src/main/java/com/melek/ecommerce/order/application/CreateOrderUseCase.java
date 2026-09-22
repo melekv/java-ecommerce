@@ -1,5 +1,6 @@
 package com.melek.ecommerce.order.application;
 
+import com.melek.ecommerce.catalog.product.domain.model.ProductId;
 import com.melek.ecommerce.order.application.dto.OrderItemRequest;
 import com.melek.ecommerce.order.application.port.ProductCatalog;
 import com.melek.ecommerce.order.application.port.ProductData;
@@ -33,8 +34,9 @@ public class CreateOrderUseCase {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (OrderItemRequest item : items) {
-            ProductData product = productCatalog.findById(item.id())
-                    .orElseThrow();
+            ProductData product = productCatalog.findById(
+                new ProductId(item.id())
+            ).orElseThrow();
 
             orderItems.add(new OrderItem(
                 OrderItemId.generate(),

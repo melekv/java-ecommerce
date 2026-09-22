@@ -1,8 +1,7 @@
 package com.melek.ecommerce.order.infrastructure.configuration;
 
 import com.melek.ecommerce.catalog.product.domain.repository.ProductRepository;
-import com.melek.ecommerce.order.application.ConfirmOrderUseCase;
-import com.melek.ecommerce.order.application.CreateOrderUseCase;
+import com.melek.ecommerce.order.application.*;
 import com.melek.ecommerce.order.application.port.ProductCatalog;
 import com.melek.ecommerce.order.domain.repository.OrderRepository;
 import com.melek.ecommerce.order.infrastructure.catalog.ProductCatalogAdapter;
@@ -32,5 +31,40 @@ public class OrderConfiguration {
         OrderRepository orderRepository
     ) {
         return new ConfirmOrderUseCase(orderRepository);
+    }
+
+    @Bean
+    public CancelOrderUseCase cancelOrderUseCase(
+        OrderRepository orderRepository
+    ) {
+        return new CancelOrderUseCase(orderRepository);
+    }
+
+    @Bean
+    public PayOrderUseCase payOrderUseCase(
+        OrderRepository orderRepository
+    ) {
+        return new PayOrderUseCase(orderRepository);
+    }
+
+    @Bean
+    public ShipOrderUseCase shipOrderUseCase(
+        OrderRepository orderRepository
+    ) {
+        return new ShipOrderUseCase(orderRepository);
+    }
+
+    @Bean
+    public DeliverOrderUseCase deliverOrderUseCase(
+        OrderRepository orderRepository
+    ) {
+        return new DeliverOrderUseCase(orderRepository);
+    }
+
+    @Bean
+    public GetOrderUseCase getOrderUseCase(
+        OrderRepository orderRepository
+    ) {
+        return new GetOrderUseCase(orderRepository);
     }
 }

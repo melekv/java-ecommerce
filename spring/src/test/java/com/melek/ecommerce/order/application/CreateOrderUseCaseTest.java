@@ -46,11 +46,11 @@ public class CreateOrderUseCaseTest {
 
         List<OrderItemRequest> items = List.of(
             new OrderItemRequest(
-                productId1,
+                productId1.value(),
                 1
             ),
             new OrderItemRequest(
-                productId2,
+                productId2.value(),
                 2
             )
         );

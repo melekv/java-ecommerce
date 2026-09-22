@@ -1,13 +1,11 @@
 package com.melek.ecommerce.order.infrastructure.web;
 
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
+import com.melek.ecommerce.order.application.CancelOrderUseCase;
 import com.melek.ecommerce.order.application.ConfirmOrderUseCase;
 import com.melek.ecommerce.order.application.dto.OrderItemResponse;
 import com.melek.ecommerce.order.application.dto.OrderResponse;
-import com.melek.ecommerce.order.domain.model.Order;
-import com.melek.ecommerce.order.domain.model.OrderId;
-import com.melek.ecommerce.order.domain.model.OrderItem;
-import com.melek.ecommerce.order.domain.model.OrderItemId;
+import com.melek.ecommerce.order.domain.model.*;
 import com.melek.ecommerce.shared.domain.model.Money;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,9 @@ public class OrderControllerTest {
 
     @MockitoBean
     private ConfirmOrderUseCase confirmOrderUseCase;
+
+    @MockitoBean
+    private CancelOrderUseCase cancelOrderUseCase;
 
     @MockitoBean
     private OrderResponseMapper mapper;
@@ -94,6 +95,57 @@ public class OrderControllerTest {
             .andExpect(jsonPath("$.items[0].quantity").value(orderItemResponse.quantity()));
 
         verify(confirmOrderUseCase).execute(order.getId());
+        verify(mapper).map(order);
+    }
+
+    @Test
+    public void Should_Cancel_Order() throws Exception {
+        OrderItem orderItem = new OrderItem(
+            OrderItemId.generate(),
+            ProductId.generate(),
+            "Keyboard",
+            Money.of(
+                BigDecimal.valueOf(100),
+                Currency.getInstance("PLN")
+            ),
+            2
+        );
+
+        Order order = new Order(
+            OrderId.generate(),
+            UUID.randomUUID(),
+            List.of(orderItem),
+            OrderStatus.PAID
+        );
+
+        OrderItemResponse orderItemResponse = new OrderItemResponse(
+            orderItem.getId().value(),
+            orderItem.getProductId().value(),
+            orderItem.getProductName(),
+            orderItem.getUnitPrice().amount(),
+            orderItem.getUnitPrice().currency().getCurrencyCode(),
+            orderItem.getQuantity()
+        );
+
+        OrderResponse response = new OrderResponse(
+            order.getId().value(),
+            order.getCustomerId(),
+            order.getStatus(),
+            List.of(orderItemResponse)
+        );
+
+        when(cancelOrderUseCase.execute(order.getId()))
+            .thenReturn(order);
+
+        when(mapper.map(order))
+            .thenReturn(response);
+
+        mockMvc.perform(
+                post("/api/v1/orders/{id}/cancel", order.getId().value()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.status").value(order.getStatus().name()));
+
+        verify(cancelOrderUseCase).execute(order.getId());
         verify(mapper).map(order);
     }
 }
