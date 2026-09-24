@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class OrderConfiguration {
 
     @Bean
-    public ProductCatalog productCatalog(
+    public ProductCatalog orderProductCatalog(
         ProductRepository productRepository
     ) {
         return new ProductCatalogAdapter(productRepository);

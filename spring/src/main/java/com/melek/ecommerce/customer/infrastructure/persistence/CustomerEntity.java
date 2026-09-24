@@ -23,6 +23,8 @@ public class CustomerEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
+    protected CustomerEntity() {}
+
     public CustomerEntity(
         UUID id,
         String firstName,

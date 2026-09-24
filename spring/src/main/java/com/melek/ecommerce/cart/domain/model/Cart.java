@@ -25,6 +25,28 @@ public class Cart {
         this.items = new ArrayList<>();
     }
 
+    public Cart(
+        CartId id,
+        CustomerId customerId,
+        List<CartItem> items
+    ) {
+        if (id == null) {
+            throw new IllegalArgumentException("Cart id cannot be null");
+        }
+
+        if (customerId == null) {
+            throw new IllegalArgumentException("Customer id cannot be null");
+        }
+
+        if (items == null) {
+            throw new IllegalArgumentException("Items cannot be null");
+        }
+
+        this.id = id;
+        this.customerId = customerId;
+        this.items = new ArrayList<>(items);
+    }
+
     public void addItem(CartItem item) {
         if (item == null) {
             throw new IllegalArgumentException("Item cannot be null");

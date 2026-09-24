@@ -36,6 +36,34 @@ public class CartItem {
         this.quantity = quantity;
     }
 
+    public CartItem(
+        CartItemId id,
+        ProductId productId,
+        Money price,
+        int quantity
+    ) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+
+        if (productId == null) {
+            throw new IllegalArgumentException("Product id cannot be null");
+        }
+
+        if (price == null) {
+            throw new IllegalArgumentException("Price cannot be null");
+        }
+
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity cannot be less than or equal to zero");
+        }
+
+        this.id = id;
+        this.productId = productId;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public void increaseQuantity(int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity cannot be less than or equal to zero");
