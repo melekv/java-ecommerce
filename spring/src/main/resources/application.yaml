@@ -11,3 +11,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/spring
     username: spring
     password: spring
+
+  data:
+    redis:
+      host: localhost
+      port: 6379

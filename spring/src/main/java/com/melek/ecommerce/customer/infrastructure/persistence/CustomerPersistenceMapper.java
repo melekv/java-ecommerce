@@ -2,7 +2,9 @@ package com.melek.ecommerce.customer.infrastructure.persistence;
 
 import com.melek.ecommerce.customer.domain.model.Customer;
 import com.melek.ecommerce.customer.domain.model.CustomerId;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerPersistenceMapper {
 
     public CustomerEntity toEntity(Customer customer) {

@@ -1,8 +1,7 @@
 package com.melek.ecommerce.order.infrastructure.web;
 
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
-import com.melek.ecommerce.order.application.CancelOrderUseCase;
-import com.melek.ecommerce.order.application.ConfirmOrderUseCase;
+import com.melek.ecommerce.order.application.*;
 import com.melek.ecommerce.order.application.dto.OrderItemResponse;
 import com.melek.ecommerce.order.application.dto.OrderResponse;
 import com.melek.ecommerce.order.domain.model.*;
@@ -31,10 +30,25 @@ public class OrderControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
+    private CreateOrderUseCase createOrderUseCase;
+
+    @MockitoBean
     private ConfirmOrderUseCase confirmOrderUseCase;
 
     @MockitoBean
     private CancelOrderUseCase cancelOrderUseCase;
+
+    @MockitoBean
+    private PayOrderUseCase payOrderUseCase;
+
+    @MockitoBean
+    private ShipOrderUseCase shipOrderUseCase;
+
+    @MockitoBean
+    private DeliverOrderUseCase deliverOrderUseCase;
+
+    @MockitoBean
+    private GetOrderUseCase getOrderUseCase;
 
     @MockitoBean
     private OrderResponseMapper mapper;
