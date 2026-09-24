@@ -1,6 +1,6 @@
 package com.melek.ecommerce.cart.infrastructure.configuration;
 
-import com.melek.ecommerce.cart.application.AddItemToCartUseCase;
+import com.melek.ecommerce.cart.application.*;
 import com.melek.ecommerce.cart.application.port.ProductCatalog;
 import com.melek.ecommerce.cart.domain.repository.CartRepository;
 import com.melek.ecommerce.cart.infrastructure.persistence.CartRedisMapper;
@@ -55,5 +55,27 @@ public class CartConfiguration {
             cartRepository,
             productCatalog
         );
+    }
+
+    @Bean
+    public GetCartUseCase getCartUseCase(CartRepository cartRepository) {
+        return new GetCartUseCase(cartRepository);
+    }
+
+    @Bean
+    public RemoveItemFromCartUseCase removeItemFromCartUseCase(CartRepository cartRepository) {
+        return new RemoveItemFromCartUseCase(cartRepository);
+    }
+
+    @Bean
+    public DecreaseCartItemQuantityUseCase decreaseCartItemQuantityUseCase(
+        CartRepository cartRepository
+    ) {
+        return new DecreaseCartItemQuantityUseCase(cartRepository);
+    }
+
+    @Bean
+    public ClearCartUseCase clearCartUseCase(CartRepository cartRepository) {
+        return new ClearCartUseCase(cartRepository);
     }
 }
