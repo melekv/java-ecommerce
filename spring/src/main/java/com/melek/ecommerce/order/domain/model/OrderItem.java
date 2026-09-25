@@ -29,6 +29,23 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
+    public OrderItem(
+        ProductId productId,
+        String productName,
+        Money unitPrice,
+        int quantity
+    ) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+
+        this.id = OrderItemId.generate();
+        this.productId = productId;
+        this.productName = productName;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+    }
+
     public OrderItemId getId() {
         return id;
     }

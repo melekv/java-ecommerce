@@ -2,9 +2,11 @@ package com.melek.ecommerce.order.infrastructure.configuration;
 
 import com.melek.ecommerce.catalog.product.domain.repository.ProductRepository;
 import com.melek.ecommerce.order.application.*;
+import com.melek.ecommerce.order.application.port.PaymentGateway;
 import com.melek.ecommerce.order.application.port.ProductCatalog;
 import com.melek.ecommerce.order.domain.repository.OrderRepository;
 import com.melek.ecommerce.order.infrastructure.catalog.ProductCatalogAdapter;
+import com.melek.ecommerce.order.infrastructure.payment.FakePaymentGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -42,9 +44,10 @@ public class OrderConfiguration {
 
     @Bean
     public PayOrderUseCase payOrderUseCase(
-        OrderRepository orderRepository
+        OrderRepository orderRepository,
+        PaymentGateway paymentGateway
     ) {
-        return new PayOrderUseCase(orderRepository);
+        return new PayOrderUseCase(orderRepository, paymentGateway);
     }
 
     @Bean
@@ -66,5 +69,10 @@ public class OrderConfiguration {
         OrderRepository orderRepository
     ) {
         return new GetOrderUseCase(orderRepository);
+    }
+
+    @Bean
+    public PaymentGateway paymentGateway() {
+        return new FakePaymentGateway();
     }
 }
