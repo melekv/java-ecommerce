@@ -21,6 +21,16 @@ services:
     volumes:
       - cache-data:/data
 
+  rabbitmq:
+    image: rabbitmq:4.2.9-management
+    container_name: e-commerce-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
 #  frontend:
 #    image: node:26.7.0
 #    container_name: e-commerce-frontend
@@ -34,3 +44,4 @@ services:
 volumes:
   postgres-data:
   cache-data:
+  rabbitmq-data:

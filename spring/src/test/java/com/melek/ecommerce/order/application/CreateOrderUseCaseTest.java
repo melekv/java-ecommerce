@@ -2,6 +2,7 @@ package com.melek.ecommerce.order.application;
 
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
 import com.melek.ecommerce.order.application.dto.OrderItemRequest;
+import com.melek.ecommerce.order.application.port.OrderEventPublisher;
 import com.melek.ecommerce.order.application.port.ProductCatalog;
 import com.melek.ecommerce.order.application.port.ProductData;
 import com.melek.ecommerce.order.domain.model.Order;
@@ -34,11 +35,15 @@ public class CreateOrderUseCaseTest {
     @Mock
     private ProductCatalog productCatalog;
 
+    @Mock
+    private OrderEventPublisher eventPublisher;
+
     @Test
     public void Should_Create_Order() {
         CreateOrderUseCase createOrderUseCase = new CreateOrderUseCase(
             orderRepository,
-            productCatalog
+            productCatalog,
+            eventPublisher
         );
 
         ProductId productId1 = ProductId.generate();

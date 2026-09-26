@@ -2,6 +2,7 @@ package com.melek.ecommerce.order.infrastructure.configuration;
 
 import com.melek.ecommerce.catalog.product.domain.repository.ProductRepository;
 import com.melek.ecommerce.order.application.*;
+import com.melek.ecommerce.order.application.port.OrderEventPublisher;
 import com.melek.ecommerce.order.application.port.PaymentGateway;
 import com.melek.ecommerce.order.application.port.ProductCatalog;
 import com.melek.ecommerce.order.domain.repository.OrderRepository;
@@ -23,9 +24,14 @@ public class OrderConfiguration {
     @Bean
     public CreateOrderUseCase createOrderUseCase(
         OrderRepository orderRepository,
-        ProductCatalog productCatalog
+        ProductCatalog productCatalog,
+        OrderEventPublisher eventPublisher
     ) {
-        return new CreateOrderUseCase(orderRepository, productCatalog);
+        return new CreateOrderUseCase(
+            orderRepository,
+            productCatalog,
+            eventPublisher
+        );
     }
 
     @Bean

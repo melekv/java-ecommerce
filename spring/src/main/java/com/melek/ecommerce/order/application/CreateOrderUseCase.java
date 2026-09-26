@@ -1,7 +1,9 @@
 package com.melek.ecommerce.order.application;
 
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
+import com.melek.ecommerce.order.application.dto.OrderCreatedEvent;
 import com.melek.ecommerce.order.application.dto.OrderItemRequest;
+import com.melek.ecommerce.order.application.port.OrderEventPublisher;
 import com.melek.ecommerce.order.application.port.ProductCatalog;
 import com.melek.ecommerce.order.application.port.ProductData;
 import com.melek.ecommerce.order.domain.model.Order;
@@ -18,13 +20,16 @@ public class CreateOrderUseCase {
 
     private final OrderRepository orderRepository;
     private final ProductCatalog productCatalog;
+    private final OrderEventPublisher eventPublisher;
 
     public CreateOrderUseCase(
         OrderRepository orderRepository,
-        ProductCatalog productCatalog
+        ProductCatalog productCatalog,
+        OrderEventPublisher eventPublisher
     ) {
         this.orderRepository = orderRepository;
         this.productCatalog = productCatalog;
+        this.eventPublisher = eventPublisher;
     }
 
     public Order execute(
@@ -53,6 +58,15 @@ public class CreateOrderUseCase {
             orderItems
         );
 
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+
+        eventPublisher.publish(
+            new OrderCreatedEvent(
+                savedOrder.getId().value(),
+                savedOrder.getCustomerId()
+            )
+        );
+
+        return savedOrder;
     }
 }
