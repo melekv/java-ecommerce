@@ -4,6 +4,7 @@ import com.melek.ecommerce.catalog.category.application.exception.CategoryNotFou
 import com.melek.ecommerce.catalog.category.domain.model.Category;
 import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
 import com.melek.ecommerce.catalog.category.domain.repository.CategoryRepository;
+import com.melek.ecommerce.catalog.product.application.port.ProductEventPublisher;
 import com.melek.ecommerce.shared.domain.model.Money;
 import com.melek.ecommerce.catalog.product.domain.model.Product;
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
@@ -32,10 +33,17 @@ public class CreateProductUseCaseTest {
     @Mock
     private CategoryRepository categoryRepository;
 
+    @Mock
+    private ProductEventPublisher productEventPublisher;
+
     @Test
     void Should_Create_Product() {
 
-        CreateProductUseCase useCase = new CreateProductUseCase(productRepository, categoryRepository);
+        CreateProductUseCase useCase = new CreateProductUseCase(
+            productRepository,
+            categoryRepository,
+            productEventPublisher
+        );
 
         CategoryId categoryId = CategoryId.generate();
         Category category = new Category(categoryId, "Food");
@@ -82,7 +90,11 @@ public class CreateProductUseCaseTest {
     @Test
     public void Should_Reject_Product_When_Category_Not_Found() {
 
-        CreateProductUseCase useCase = new CreateProductUseCase(productRepository, categoryRepository);
+        CreateProductUseCase useCase = new CreateProductUseCase(
+            productRepository,
+            categoryRepository,
+            productEventPublisher
+        );
 
         CategoryId categoryId = CategoryId.generate();
 

@@ -1,40 +1,18 @@
-package com.melek.ecommerce.order.infrastructure.messaging;
+package com.melek.ecommerce.inventory.infrastructure.configuration;
 
+import com.melek.ecommerce.inventory.application.CreateStockUseCase;
+import com.melek.ecommerce.inventory.application.ReserveStockUseCase;
+import com.melek.ecommerce.inventory.domain.repository.InventoryRepository;
 import com.melek.ecommerce.order.application.port.OrderEventPublisher;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import com.melek.ecommerce.order.infrastructure.messaging.RabbitMqOrderEventPublisher;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tools.jackson.databind.ObjectMapper;
 
 @Configuration
-public class RabbitMqConfiguration {
-
-    @Bean
-    public TopicExchange ordersExchange() {
-        return new TopicExchange("orders.exchange");
-    }
-
-    @Bean
-    public Queue orderCreatedQueue() {
-        return new Queue("orders.created");
-    }
-
-    @Bean
-    public Binding orderCreatedBinding(
-        Queue orderCreatedQueue,
-        TopicExchange ordersExchange
-    ) {
-        return BindingBuilder
-            .bind(orderCreatedQueue)
-            .to(ordersExchange)
-            .with("orders.created");
-    }
+public class InventoryConfiguration {
 
     @Bean
     public OrderEventPublisher orderEventPublisher(RabbitTemplate rabbitTemplate) {
@@ -55,5 +33,15 @@ public class RabbitMqConfiguration {
         rabbitTemplate.setMessageConverter(messageConverter);
 
         return rabbitTemplate;
+    }
+
+    @Bean
+    public ReserveStockUseCase reserveStockUseCase(InventoryRepository inventoryRepository) {
+        return new ReserveStockUseCase(inventoryRepository);
+    }
+
+    @Bean
+    public CreateStockUseCase createStockUseCase(InventoryRepository inventoryRepository) {
+        return new CreateStockUseCase(inventoryRepository);
     }
 }

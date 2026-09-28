@@ -2,6 +2,8 @@ package com.melek.ecommerce.catalog.product.application;
 
 import com.melek.ecommerce.catalog.category.application.exception.CategoryNotFoundException;
 import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
+import com.melek.ecommerce.shared.messaging.event.ProductCreatedEvent;
+import com.melek.ecommerce.catalog.product.application.port.ProductEventPublisher;
 import com.melek.ecommerce.shared.domain.model.Money;
 import com.melek.ecommerce.catalog.product.domain.model.Product;
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
@@ -15,13 +17,16 @@ public class CreateProductUseCase {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductEventPublisher productEventPublisher;
 
     public CreateProductUseCase(
         ProductRepository productRepository,
-        CategoryRepository categoryRepository
+        CategoryRepository categoryRepository,
+        ProductEventPublisher productEventPublisher
     ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.productEventPublisher = productEventPublisher;
     }
 
     public Product execute(
@@ -46,6 +51,14 @@ public class CreateProductUseCase {
             categoryId
         );
 
-        return productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+
+        productEventPublisher.publish(
+            new ProductCreatedEvent(
+                savedProduct.getId().value()
+            )
+        );
+
+        return savedProduct;
     }
 }

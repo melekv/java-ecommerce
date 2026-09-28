@@ -3,6 +3,9 @@ package com.melek.ecommerce.catalog.product.infrastructure.configuration;
 import com.melek.ecommerce.catalog.category.domain.repository.CategoryRepository;
 import com.melek.ecommerce.catalog.product.domain.repository.ProductRepository;
 import com.melek.ecommerce.catalog.product.application.*;
+import com.melek.ecommerce.catalog.product.application.port.ProductEventPublisher;
+import com.melek.ecommerce.catalog.product.infrastructure.messaging.RabbitMqProductEventPublisher;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,29 +13,34 @@ import org.springframework.context.annotation.Configuration;
 public class ProductConfiguration {
 
     @Bean
-    CreateProductUseCase createProductUseCase(
+    public CreateProductUseCase createProductUseCase(
         ProductRepository productRepository,
-        CategoryRepository categoryRepository
+        CategoryRepository categoryRepository,
+        ProductEventPublisher productEventPublisher
     ) {
-        return new CreateProductUseCase(productRepository, categoryRepository);
+        return new CreateProductUseCase(
+            productRepository,
+            categoryRepository,
+            productEventPublisher
+        );
     }
 
     @Bean
-    GetProductUseCase getProductUseCase(
+    public GetProductUseCase getProductUseCase(
         ProductRepository productRepository
     ) {
         return new GetProductUseCase(productRepository);
     }
 
     @Bean
-    GetProductsUseCase getProductsUseCase(
+    public GetProductsUseCase getProductsUseCase(
         ProductRepository productRepository
     ) {
         return new GetProductsUseCase(productRepository);
     }
 
     @Bean
-    UpdateProductUseCase updateProductUseCase(
+    public UpdateProductUseCase updateProductUseCase(
         ProductRepository productRepository,
         CategoryRepository categoryRepository
     ) {
@@ -40,9 +48,14 @@ public class ProductConfiguration {
     }
 
     @Bean
-    DeleteProductUseCase deleteProductUseCase(
+    public DeleteProductUseCase deleteProductUseCase(
         ProductRepository productRepository
     ) {
         return new DeleteProductUseCase(productRepository);
+    }
+
+    @Bean
+    public ProductEventPublisher productEventPublisher(RabbitTemplate rabbitTemplate) {
+        return new RabbitMqProductEventPublisher(rabbitTemplate);
     }
 }

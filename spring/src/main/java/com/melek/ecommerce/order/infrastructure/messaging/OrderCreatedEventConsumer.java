@@ -1,6 +1,6 @@
 package com.melek.ecommerce.order.infrastructure.messaging;
 
-import com.melek.ecommerce.order.application.dto.OrderCreatedEvent;
+import com.melek.ecommerce.shared.messaging.event.OrderCreatedEvent;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 

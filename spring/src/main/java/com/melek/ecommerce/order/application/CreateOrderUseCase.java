@@ -1,7 +1,8 @@
 package com.melek.ecommerce.order.application;
 
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
-import com.melek.ecommerce.order.application.dto.OrderCreatedEvent;
+import com.melek.ecommerce.shared.messaging.event.OrderCreatedEvent;
+import com.melek.ecommerce.shared.messaging.event.OrderCreatedItem;
 import com.melek.ecommerce.order.application.dto.OrderItemRequest;
 import com.melek.ecommerce.order.application.port.OrderEventPublisher;
 import com.melek.ecommerce.order.application.port.ProductCatalog;
@@ -63,7 +64,13 @@ public class CreateOrderUseCase {
         eventPublisher.publish(
             new OrderCreatedEvent(
                 savedOrder.getId().value(),
-                savedOrder.getCustomerId()
+                savedOrder.getCustomerId(),
+                savedOrder.getItems()
+                    .stream()
+                    .map(item -> new OrderCreatedItem(
+                        item.getProductId().value(),
+                        item.getQuantity()
+                    )).toList()
             )
         );
 
