@@ -43,9 +43,13 @@ public class OrderConfiguration {
 
     @Bean
     public CancelOrderUseCase cancelOrderUseCase(
-        OrderRepository orderRepository
+        OrderRepository orderRepository,
+        OrderEventPublisher orderEventPublisher
     ) {
-        return new CancelOrderUseCase(orderRepository);
+        return new CancelOrderUseCase(
+            orderRepository,
+            orderEventPublisher
+        );
     }
 
     @Bean

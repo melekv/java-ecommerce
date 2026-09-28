@@ -29,6 +29,14 @@ public class InventoryItem {
         this.quantity -= quantity;
     }
 
+    public void release(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity to release must be positive");
+        }
+
+        this.quantity += quantity;
+    }
+
     public UUID getProductId() {
         return productId;
     }

@@ -21,6 +21,11 @@ public class InventoryRabbitMqConfiguration {
     }
 
     @Bean
+    public Queue inventoryOrderCancelledQueue() {
+        return new Queue("inventory.order-cancelled");
+    }
+
+    @Bean
     public Binding inventoryOrderCreatedBinding(
         Queue inventoryOrderCreatedQueue,
         TopicExchange ordersExchange
@@ -29,6 +34,17 @@ public class InventoryRabbitMqConfiguration {
             .bind(inventoryOrderCreatedQueue)
             .to(ordersExchange)
             .with("orders.created");
+    }
+
+    @Bean
+    public Binding inventoryOrderCancelledBinding(
+        Queue inventoryOrderCancelledQueue,
+        TopicExchange ordersExchange
+    ) {
+        return BindingBuilder
+            .bind(inventoryOrderCancelledQueue)
+            .to(ordersExchange)
+            .with("orders.cancelled");
     }
 
     @Bean

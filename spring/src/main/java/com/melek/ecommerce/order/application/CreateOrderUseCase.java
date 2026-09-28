@@ -61,7 +61,7 @@ public class CreateOrderUseCase {
 
         Order savedOrder = orderRepository.save(order);
 
-        eventPublisher.publish(
+        eventPublisher.publishCreated(
             new OrderCreatedEvent(
                 savedOrder.getId().value(),
                 savedOrder.getCustomerId(),
