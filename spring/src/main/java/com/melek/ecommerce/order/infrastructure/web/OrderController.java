@@ -18,7 +18,6 @@ public class OrderController {
     private final CreateOrderUseCase createOrderUseCase;
     private final ConfirmOrderUseCase confirmOrderUseCase;
     private final CancelOrderUseCase cancelOrderUseCase;
-    private final PayOrderUseCase payOrderUseCase;
     private final ShipOrderUseCase shipOrderUseCase;
     private final DeliverOrderUseCase deliverOrderUseCase;
     private final GetOrderUseCase getOrderUseCase;
@@ -28,7 +27,6 @@ public class OrderController {
         CreateOrderUseCase createOrderUseCase,
         ConfirmOrderUseCase confirmOrderUseCase,
         CancelOrderUseCase cancelOrderUseCase,
-        PayOrderUseCase payOrderUseCase,
         ShipOrderUseCase shipOrderUseCase,
         DeliverOrderUseCase deliverOrderUseCase,
         GetOrderUseCase getOrderUseCase,
@@ -37,7 +35,6 @@ public class OrderController {
         this.createOrderUseCase = createOrderUseCase;
         this.confirmOrderUseCase = confirmOrderUseCase;
         this.cancelOrderUseCase = cancelOrderUseCase;
-        this.payOrderUseCase = payOrderUseCase;
         this.shipOrderUseCase = shipOrderUseCase;
         this.deliverOrderUseCase = deliverOrderUseCase;
         this.getOrderUseCase = getOrderUseCase;
@@ -69,15 +66,6 @@ public class OrderController {
     @PostMapping("/{id}/cancel")
     public OrderResponse cancel(@PathVariable UUID id) {
         Order order = cancelOrderUseCase.execute(
-            new OrderId(id)
-        );
-
-        return mapper.map(order);
-    }
-
-    @PostMapping("/{id}/pay")
-    public OrderResponse pay(@PathVariable UUID id) {
-        Order order = payOrderUseCase.execute(
             new OrderId(id)
         );
 

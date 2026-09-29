@@ -1,6 +1,7 @@
 package com.melek.ecommerce.order.application.port;
 
 import com.melek.ecommerce.shared.messaging.event.OrderCancelledEvent;
+import com.melek.ecommerce.shared.messaging.event.OrderConfirmedEvent;
 import com.melek.ecommerce.shared.messaging.event.OrderCreatedEvent;
 
 public interface OrderEventPublisher {
@@ -8,4 +9,6 @@ public interface OrderEventPublisher {
     void publishCreated(OrderCreatedEvent event);
 
     void publishCancelled(OrderCancelledEvent event);
+
+    void publishConfirmed(OrderConfirmedEvent event);
 }

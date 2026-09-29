@@ -36,9 +36,13 @@ public class OrderConfiguration {
 
     @Bean
     public ConfirmOrderUseCase confirmOrderUseCase(
-        OrderRepository orderRepository
+        OrderRepository orderRepository,
+        OrderEventPublisher orderEventPublisher
     ) {
-        return new ConfirmOrderUseCase(orderRepository);
+        return new ConfirmOrderUseCase(
+            orderRepository,
+            orderEventPublisher
+        );
     }
 
     @Bean
@@ -50,14 +54,6 @@ public class OrderConfiguration {
             orderRepository,
             orderEventPublisher
         );
-    }
-
-    @Bean
-    public PayOrderUseCase payOrderUseCase(
-        OrderRepository orderRepository,
-        PaymentGateway paymentGateway
-    ) {
-        return new PayOrderUseCase(orderRepository, paymentGateway);
     }
 
     @Bean
@@ -79,6 +75,13 @@ public class OrderConfiguration {
         OrderRepository orderRepository
     ) {
         return new GetOrderUseCase(orderRepository);
+    }
+
+    @Bean
+    public MarkOrderAsPaidUseCase markOrderAsPaidUseCase(
+        OrderRepository orderRepository
+    ) {
+        return new MarkOrderAsPaidUseCase(orderRepository);
     }
 
     @Bean

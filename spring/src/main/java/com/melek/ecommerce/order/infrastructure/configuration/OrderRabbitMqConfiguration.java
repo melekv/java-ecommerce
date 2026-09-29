@@ -21,6 +21,11 @@ public class OrderRabbitMqConfiguration {
     }
 
     @Bean
+    public Queue orderPaymentSucceededQueue() {
+        return new Queue("order.payment-succeeded");
+    }
+
+    @Bean
     public Binding orderCreatedBinding(
         Queue orderCreatedQueue,
         TopicExchange ordersExchange
@@ -29,5 +34,16 @@ public class OrderRabbitMqConfiguration {
             .bind(orderCreatedQueue)
             .to(ordersExchange)
             .with("orders.created");
+    }
+
+    @Bean
+    public Binding orderPaymentSucceededBinding(
+        Queue orderPaymentSucceededQueue,
+        TopicExchange paymentExchange
+    ) {
+        return BindingBuilder
+            .bind(orderPaymentSucceededQueue)
+            .to(paymentExchange)
+            .with("payments.succeeded");
     }
 }

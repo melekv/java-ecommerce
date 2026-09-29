@@ -39,9 +39,6 @@ public class OrderControllerTest {
     private CancelOrderUseCase cancelOrderUseCase;
 
     @MockitoBean
-    private PayOrderUseCase payOrderUseCase;
-
-    @MockitoBean
     private ShipOrderUseCase shipOrderUseCase;
 
     @MockitoBean

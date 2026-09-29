@@ -1,6 +1,7 @@
 package com.melek.ecommerce.inventory.infrastructure.configuration;
 
 import com.melek.ecommerce.inventory.application.CreateStockUseCase;
+import com.melek.ecommerce.inventory.application.ReleaseStockUseCase;
 import com.melek.ecommerce.inventory.application.ReserveStockUseCase;
 import com.melek.ecommerce.inventory.domain.repository.InventoryRepository;
 import com.melek.ecommerce.order.application.port.OrderEventPublisher;
@@ -43,5 +44,10 @@ public class InventoryConfiguration {
     @Bean
     public CreateStockUseCase createStockUseCase(InventoryRepository inventoryRepository) {
         return new CreateStockUseCase(inventoryRepository);
+    }
+
+    @Bean
+    public ReleaseStockUseCase releaseStockUseCase(InventoryRepository inventoryRepository) {
+        return new ReleaseStockUseCase(inventoryRepository);
     }
 }

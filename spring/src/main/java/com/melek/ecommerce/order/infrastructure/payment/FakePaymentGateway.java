@@ -2,7 +2,7 @@ package com.melek.ecommerce.order.infrastructure.payment;
 
 import com.melek.ecommerce.order.application.port.PaymentGateway;
 import com.melek.ecommerce.order.application.port.PaymentResult;
-import com.melek.ecommerce.order.application.port.PaymentStatus;
+import com.melek.ecommerce.payment.domain.model.PaymentStatus;
 import com.melek.ecommerce.order.domain.model.Order;
 
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class FakePaymentGateway implements PaymentGateway {
         return payments.computeIfAbsent(
             idempotencyKey,
             key -> new PaymentResult(
-                PaymentStatus.SUCCESS,
+                PaymentStatus.PENDING,
                 UUID.randomUUID().toString()
             )
         );
