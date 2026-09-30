@@ -42,16 +42,22 @@ public class ProductConfiguration {
     @Bean
     public UpdateProductUseCase updateProductUseCase(
         ProductRepository productRepository,
-        CategoryRepository categoryRepository
+        CategoryRepository categoryRepository,
+        ProductEventPublisher productEventPublisher
     ) {
-        return new UpdateProductUseCase(productRepository, categoryRepository);
+        return new UpdateProductUseCase(
+            productRepository,
+            categoryRepository,
+            productEventPublisher
+        );
     }
 
     @Bean
     public DeleteProductUseCase deleteProductUseCase(
-        ProductRepository productRepository
+        ProductRepository productRepository,
+        ProductEventPublisher productEventPublisher
     ) {
-        return new DeleteProductUseCase(productRepository);
+        return new DeleteProductUseCase(productRepository, productEventPublisher);
     }
 
     @Bean

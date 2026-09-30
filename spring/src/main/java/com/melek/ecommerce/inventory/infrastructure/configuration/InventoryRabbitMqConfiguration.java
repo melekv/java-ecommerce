@@ -55,6 +55,6 @@ public class InventoryRabbitMqConfiguration {
         return BindingBuilder
             .bind(inventoryProductCreatedQueue)
             .to(productsExchange)
-            .with("inventory.product-created");
+            .with("products.created");
     }
 }

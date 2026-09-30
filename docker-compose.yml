@@ -31,6 +31,19 @@ services:
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
 
+  elasticsearch:
+    image: elasticsearch:9.4.6
+    container_name: e-commerce-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
 #  frontend:
 #    image: node:26.7.0
 #    container_name: e-commerce-frontend
@@ -45,3 +58,4 @@ volumes:
   postgres-data:
   cache-data:
   rabbitmq-data:
+  elasticsearch-data:

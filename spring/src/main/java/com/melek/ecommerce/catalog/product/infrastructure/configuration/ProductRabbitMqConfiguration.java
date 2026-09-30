@@ -16,18 +16,50 @@ public class ProductRabbitMqConfiguration {
     }
 
     @Bean
-    public Queue productCreatedEventQueue() {
-        return new Queue("products.created");
+    public Queue productCreatedForSearchEventQueue() {
+        return new Queue("products.elasticsearch.created");
     }
 
     @Bean
-    public Binding productCreatedBinding(
-        Queue productCreatedEventQueue,
+    public Queue productUpdatedForSearchEventQueue() {
+        return new Queue("products.elasticsearch.updated");
+    }
+
+    @Bean
+    public Queue productDeletedForSearchEventQueue() {
+        return new Queue("products.elasticsearch.deleted");
+    }
+
+    @Bean
+    public Binding productCreatedForSearchBinding(
+        Queue productCreatedForSearchEventQueue,
         TopicExchange productsExchange
     ) {
         return BindingBuilder
-            .bind(productCreatedEventQueue)
+            .bind(productCreatedForSearchEventQueue)
             .to(productsExchange)
             .with("products.created");
+    }
+
+    @Bean
+    public Binding productUpdatedForSearchBinding(
+        Queue productUpdatedForSearchEventQueue,
+        TopicExchange productsExchange
+    ) {
+        return BindingBuilder
+            .bind(productUpdatedForSearchEventQueue)
+            .to(productsExchange)
+            .with("products.updated");
+    }
+
+    @Bean
+    public Binding productDeletedForSearchBinding(
+        Queue productDeletedForSearchEventQueue,
+        TopicExchange productsExchange
+    ) {
+        return BindingBuilder
+            .bind(productDeletedForSearchEventQueue)
+            .to(productsExchange)
+            .with("products.deleted");
     }
 }

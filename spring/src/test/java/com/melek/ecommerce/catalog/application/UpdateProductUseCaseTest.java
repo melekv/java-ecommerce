@@ -3,6 +3,7 @@ package com.melek.ecommerce.catalog.application;
 import com.melek.ecommerce.catalog.category.domain.model.Category;
 import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
 import com.melek.ecommerce.catalog.category.domain.repository.CategoryRepository;
+import com.melek.ecommerce.catalog.product.application.port.ProductEventPublisher;
 import com.melek.ecommerce.shared.domain.model.Money;
 import com.melek.ecommerce.catalog.product.domain.model.Product;
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
@@ -31,11 +32,18 @@ public class UpdateProductUseCaseTest {
     @Mock
     private CategoryRepository categoryRepository;
 
+    @Mock
+    private ProductEventPublisher productEventPublisher;
+
     @Test
     void Should_Update_Product() {
         ProductId productId = ProductId.generate();
 
-        UpdateProductUseCase useCase = new UpdateProductUseCase(productRepository, categoryRepository);
+        UpdateProductUseCase useCase = new UpdateProductUseCase(
+            productRepository,
+            categoryRepository,
+            productEventPublisher
+        );
 
         CategoryId categoryId = CategoryId.generate();
         Category category = new Category(categoryId, "Food");
