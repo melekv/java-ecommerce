@@ -1,6 +1,7 @@
 package com.melek.ecommerce.catalog.product.infrastructure.configuration;
 
 import com.melek.ecommerce.catalog.category.domain.repository.CategoryRepository;
+import com.melek.ecommerce.catalog.product.application.port.ProductSearch;
 import com.melek.ecommerce.catalog.product.domain.repository.ProductRepository;
 import com.melek.ecommerce.catalog.product.application.*;
 import com.melek.ecommerce.catalog.product.application.port.ProductEventPublisher;
@@ -58,6 +59,13 @@ public class ProductConfiguration {
         ProductEventPublisher productEventPublisher
     ) {
         return new DeleteProductUseCase(productRepository, productEventPublisher);
+    }
+
+    @Bean
+    public SearchProductUseCase searchProductUseCase(
+        ProductSearch productSearch
+    ) {
+        return new SearchProductUseCase(productSearch);
     }
 
     @Bean

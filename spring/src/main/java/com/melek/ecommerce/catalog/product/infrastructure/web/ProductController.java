@@ -1,16 +1,16 @@
 package com.melek.ecommerce.catalog.product.infrastructure.web;
 
 import com.melek.ecommerce.catalog.product.application.*;
-import com.melek.ecommerce.catalog.product.application.dto.CreateProductRequest;
-import com.melek.ecommerce.catalog.product.application.dto.ProductResponse;
-import com.melek.ecommerce.catalog.product.application.dto.UpdateProductRequest;
+import com.melek.ecommerce.catalog.product.application.dto.*;
 import com.melek.ecommerce.catalog.category.domain.model.CategoryId;
+import com.melek.ecommerce.catalog.product.application.port.ProductSearchSort;
 import com.melek.ecommerce.catalog.product.domain.model.Product;
 import com.melek.ecommerce.catalog.product.domain.model.ProductId;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +23,7 @@ public class ProductController {
     private final GetProductsUseCase getProductsUseCase;
     private final UpdateProductUseCase updateProductUseCase;
     private final DeleteProductUseCase deleteProductUseCase;
+    private final SearchProductUseCase searchProductUseCase;
     private final ProductResponseMapper mapper;
 
     public ProductController(
@@ -31,6 +32,7 @@ public class ProductController {
         GetProductsUseCase getProductsUseCase,
         UpdateProductUseCase updateProductUseCase,
         DeleteProductUseCase deleteProductUseCase,
+        SearchProductUseCase searchProductUseCase,
         ProductResponseMapper mapper
     ) {
         this.createProductUseCase = createProductUseCase;
@@ -38,6 +40,7 @@ public class ProductController {
         this.getProductsUseCase = getProductsUseCase;
         this.updateProductUseCase = updateProductUseCase;
         this.deleteProductUseCase = deleteProductUseCase;
+        this.searchProductUseCase = searchProductUseCase;
         this.mapper = mapper;
     }
 
@@ -98,4 +101,24 @@ public class ProductController {
         deleteProductUseCase.execute(new ProductId(id));
     }
 
+    @GetMapping("/search")
+    public ProductSearchPageResponse search(
+        @RequestParam String q,
+        @RequestParam(required = false) UUID categoryId,
+        @RequestParam(required = false) BigDecimal minPrice,
+        @RequestParam(required = false) BigDecimal maxPrice,
+        @RequestParam(required = false, defaultValue = "RELEVANCE") ProductSearchSort sort,
+        @RequestParam(required = false, defaultValue = "0") int page,
+        @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        return searchProductUseCase.execute(
+            q,
+            categoryId,
+            minPrice,
+            maxPrice,
+            sort,
+            page,
+            size
+        );
+    }
 }

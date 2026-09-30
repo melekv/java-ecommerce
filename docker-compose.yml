@@ -34,6 +34,7 @@ services:
   elasticsearch:
     image: elasticsearch:9.4.6
     container_name: e-commerce-elasticsearch
+    restart: unless-stopped
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
