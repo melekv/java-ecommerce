@@ -1,31 +1,85 @@
 # E-commerce App
 
-A backend e-commerce application built with Java and Spring Boot. The project is designed to practice building a modular REST API and working with databases, caching, messaging, and product search.
+Backend e-commerce application built with Java and Spring Boot as a **modular monolith** using hexagonal architecture (ports and adapters) with DDD building blocks. The project is a hands-on exercise in designing clear module boundaries, event-driven communication, and a testable domain model.
 
 ## Features
 
-- Product and category management
+- Product and category management with full-text product search (Elasticsearch)
 - Customer management
-- Shopping cart storage using Redis
-- Order management
-- Inventory and payment workflow
-- Product search with Elasticsearch
-- Asynchronous communication using RabbitMQ
+- Shopping cart stored in Redis
+- Checkout flow: cart -> order
+- Order lifecycle: create, confirm, pay, ship, deliver, cancel
+- Stock reservation and release in the inventory module
+- Payment processing (simulated payment gateway)
+- Asynchronous, event-driven communication between modules (RabbitMQ)
 - Database migrations with Flyway
-- Integration tests
+- Unit, controller, and integration tests
 
 ## Tech Stack
 
-- **Language:** Java
-- **Framework:** Spring Boot
-- **Build tool:** Maven
-- **Database:** PostgreSQL
-- **Cache:** Redis
-- **Messaging:** RabbitMQ
-- **Search:** Elasticsearch
-- **Database migrations:** Flyway
-- **Testing:** JUnit and Testcontainers
-- **Containerization:** Docker and Docker Compose
+| Area | Technology |
+|---|---|
+| Language | Java 25 |
+| Framework | Spring Boot 4 (Web MVC, Data JPA, Validation) |
+| Database | PostgreSQL + Flyway |
+| Cache / cart storage | Redis |
+| Messaging | RabbitMQ |
+| Search | Elasticsearch |
+| Testing | JUnit, Testcontainers |
+| Build / run | Maven, Docker, Docker Compose |
+
+## Architecture
+
+Each module follows the same layout:
+
+```
+<module>/
+  domain/          # entities, value objects, repository interfaces (no framework code)
+  application/     # use cases, DTOs, ports (interfaces to other modules and external systems)
+  infrastructure/  # adapters: web controllers, JPA/Redis persistence, RabbitMQ, configuration
+```
+
+Key design decisions:
+
+- **Domain independent of frameworks.** Business rules live in the domain model (e.g. `Order`, `Product`, `Cart`), not in controllers or services.
+- **Repository interfaces in the domain, implementations in infrastructure.**
+- **Typed identifiers and value objects** (`ProductId`, `OrderId`, `Money`) instead of raw primitives.
+- **No direct dependencies between modules.** Modules talk through ports and adapters (e.g. `ProductCatalog`, `PaymentGateway`) or through events.
+- **`checkout` module** orchestrates cart and order only through ports.
+- **Shared kernel** (`shared/`) contains only `Money`, integration events, and the global exception handler.
+
+### Modules
+
+| Module | Responsibility |
+|---|---|
+| `catalog` | Categories, products, product search |
+| `customer` | Customer management |
+| `cart` | Shopping cart (Redis) |
+| `checkout` | Turns a cart into an order |
+| `order` | Order aggregate and lifecycle |
+| `inventory` | Stock reservation and release |
+| `payment` | Payment processing (simulated gateway) |
+
+### Event flow
+
+```mermaid
+sequenceDiagram
+    participant C as Checkout
+    participant O as Order
+    participant I as Inventory
+    participant P as Payment
+
+    C->>O: create order from cart
+    O-->>I: OrderCreatedEvent
+    I->>I: reserve stock
+    O-->>P: OrderConfirmedEvent
+    P->>P: process payment
+    P-->>O: PaymentSucceededEvent
+    O->>O: mark order as paid
+    Note over O,I: OrderCancelledEvent releases reserved stock
+```
+
+Product events (`ProductCreated`, `ProductUpdated`, `ProductDeleted`) are published by `catalog` to keep the search index and inventory in sync.
 
 ## Getting Started
 
@@ -34,39 +88,30 @@ A backend e-commerce application built with Java and Spring Boot. The project is
 - Docker
 - Docker Compose
 
-### 1. Clone the repository
+### Run
 
 ```bash
 git clone https://github.com/melekv/java-ecommerce.git
 cd java-ecommerce
-```
-
-### 2. Start the application
-
-Build and start the services using Docker Compose:
-
-```bash
 docker compose up --build
 ```
 
-Wait for the containers to start. The application and its supporting services are configured through the project's Docker Compose and Spring Boot configuration.
+### Run tests
 
-## Project Structure
+Integration tests use Testcontainers, so Docker must be running.
 
-The backend source code is located in the `spring/` directory.
+```bash
+cd spring
+./mvnw test
+```
 
-The application is organized into modules, including:
+## Project Status
 
-- `catalog` – products, categories, and product search
-- `customer` – customer management
-- `cart` – shopping cart functionality
-- `order` – order processing
-- `inventory` – stock management
-- `payment` – payment workflow
+This is a learning project. Currently simplified or not implemented:
 
-## Purpose
-
-This project was created to improve my Java and Spring Boot skills and practice building a backend application with persistence, caching, asynchronous messaging, and full-text search.
+- Payments use a fake gateway
+- No authentication or authorization yet
+- Test coverage is focused on the `catalog` and `order` modules
 
 ## Author
 
